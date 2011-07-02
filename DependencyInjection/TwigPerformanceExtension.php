@@ -20,6 +20,3 @@ class TwigPerformanceExtension
         $loader->load('twig.xml');
     }
 }
-
-
-

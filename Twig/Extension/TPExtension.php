@@ -27,9 +27,9 @@ class TPExtension extends \Twig_Extension
     public function getFunctions()
     {
         $names = array(
-            'doStartTimerFilter' => 'doStartTimerFilter',
-            'doStopTimerFilter'  => 'doStopTimerFilter',
-            'doGetTotalTime'     => 'doGetTotalTime'
+            'dostarttimerfilter' => 'doStartTimerFilter',
+            'dostoptimerfilter'  => 'doStopTimerFilter',
+            'dogettotaltime'     => 'doGetTotalTime'
         );
 
         $funcs = array();
