@@ -27,7 +27,9 @@ class TPExtension extends \Twig_Extension
     public function getFunctions()
     {
         $names = array(
-            'cordovatp_deepif'  => 'deepif'
+            'doStartTimerFilter' => 'doStartTimerFilter',
+            'doStopTimerFilter'  => 'doStopTimerFilter',
+            'doGetTotalTime'     => 'doGetTotalTime'
         );
 
         $funcs = array();
@@ -39,24 +41,39 @@ class TPExtension extends \Twig_Extension
     }
 
     /**
-     * Deep if with messages for each option.
+     * do Start Timer Filter
      *
-     * @return string The html output
+     * @return boolean
      */
-    public function deepif()
-    {
-        $numargs = func_num_args();
-        $arg_list = func_get_args();
-        $output = '';
-
-        for ($i = 0; $i < $numargs; $i++) {
-            $arg_list2[$i] = $arg_list[$i];
-            if (defined($arg_list2[$i])) {
-                $output .= $arg_list[$i]."<br />\n";
-            } else {
-                $output .= $arg_list[$i].".not defined<br />\n";
-            }
+    public function doStartTimerFilter($label) {
+        $now = microtime(true);
+        if (!array_key_exists('time', $GLOBALS)) {
+            $GLOBALS['time'] = array('previous','total');
         }
-        return $output;
+        if (!array_key_exists($label, $GLOBALS['time']['total')) {
+            $GLOBALS['time']['total'][$label] = 0;
+        }
+
+        $GLOBALS['time']['previous'][$label] = $now;
+        return true;
+    }
+    /**
+     * do Stop Timer Filter
+     *
+     * @return boolean
+     */
+    public function doStopTimerFilter($label) {
+        $now = microtime(true);
+        $out = $now-$GLOBALS['time']['previous'][$label];
+        $GLOBALS['time']['total'][$label] += $out;
+        return $out;
+    }
+    /**
+     * do Get Total Time
+     *
+     * @return boolean
+     */
+    public function doGetTotalTime($label) {
+        return $GLOBALS['time']['total'][$label];
     }
 }
