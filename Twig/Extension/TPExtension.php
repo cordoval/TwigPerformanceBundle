@@ -9,6 +9,10 @@ namespace Cordova\TwigPerformanceBundle\Twig\Extension;
  */
 class TPExtension extends \Twig_Extension
 {
+
+    protected $total_time = array();
+    protected $previous_time = array();
+    
     /**
      * Returns the canonical name of this helper.
      *
@@ -47,15 +51,13 @@ class TPExtension extends \Twig_Extension
      */
     public function doStartTimerFilter($label) {
         $now = microtime(true);
-        if (!array_key_exists('time', $GLOBALS)) {
-            $GLOBALS['time'] = array('previous','total');
-        }
-        if (!array_key_exists($label, $GLOBALS['time']['total'])) {
-            $GLOBALS['time']['total'][$label] = 0;
+
+        if (!array_key_exists($label, $this->total_time)) {
+            $this->total_time[$label] = 0;
         }
 
-        $GLOBALS['time']['previous'][$label] = $now;
-        return true;
+        $this->previous_time[$label] = $now;
+        return;
     }
     /**
      * do Stop Timer Filter
@@ -64,9 +66,9 @@ class TPExtension extends \Twig_Extension
      */
     public function doStopTimerFilter($label) {
         $now = microtime(true);
-        $out = $now-$GLOBALS['time']['previous'][$label];
-        $GLOBALS['time']['total'][$label] += $out;
-        return $out;
+        $out = $now - $this->previous_time[$label];
+        $this->total_time[$label] += $out;
+        return;
     }
     /**
      * do Get Total Time
@@ -74,6 +76,6 @@ class TPExtension extends \Twig_Extension
      * @return boolean
      */
     public function doGetTotalTime($label) {
-        return $GLOBALS['time']['total'][$label];
+        return $this->total_time[$label];
     }
 }
