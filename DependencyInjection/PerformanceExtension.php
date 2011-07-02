@@ -7,11 +7,12 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * Twig Performance Extension
+ * Performance Extension
+ * 
  *
  * @author Luis Cordova <cordoval@gmail.com>
  */
-class TwigPerformanceExtension
+class PerformanceExtension
     extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)

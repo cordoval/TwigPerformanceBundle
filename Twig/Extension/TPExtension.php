@@ -50,7 +50,7 @@ class TPExtension extends \Twig_Extension
         if (!array_key_exists('time', $GLOBALS)) {
             $GLOBALS['time'] = array('previous','total');
         }
-        if (!array_key_exists($label, $GLOBALS['time']['total')) {
+        if (!array_key_exists($label, $GLOBALS['time']['total'])) {
             $GLOBALS['time']['total'][$label] = 0;
         }
 
