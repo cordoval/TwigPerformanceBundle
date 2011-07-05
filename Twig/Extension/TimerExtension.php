@@ -7,12 +7,12 @@ namespace Cordova\TwigPerformanceBundle\Twig\Extension;
  *
  * @author Luis Cordova <cordoval@gmail.com>
  */
-class TPExtension extends \Twig_Extension
+class TimerExtension extends \Twig_Extension
 {
 
     protected $total_time = array();
     protected $previous_time = array();
-    
+
     /**
      * Returns the canonical name of this helper.
      *
@@ -31,9 +31,9 @@ class TPExtension extends \Twig_Extension
     public function getFunctions()
     {
         $names = array(
-            'dostarttimerfilter' => 'doStartTimerFilter',
-            'dostoptimerfilter'  => 'doStopTimerFilter',
-            'dogettotaltime'     => 'doGetTotalTime'
+            'start_timer'     => 'startTimer',
+            'stop_timer'      => 'stopTimer',
+            'get_timer_total' => 'getTimerTotal',
         );
 
         $funcs = array();
@@ -49,7 +49,7 @@ class TPExtension extends \Twig_Extension
      *
      * @return boolean
      */
-    public function doStartTimerFilter($label) {
+    public function startTimer($label) {
         $now = microtime(true);
 
         if (!array_key_exists($label, $this->total_time)) {
@@ -64,7 +64,7 @@ class TPExtension extends \Twig_Extension
      *
      * @return boolean
      */
-    public function doStopTimerFilter($label) {
+    public function stopTimer($label) {
         $now = microtime(true);
         $out = $now - $this->previous_time[$label];
         $this->total_time[$label] += $out;
@@ -75,7 +75,7 @@ class TPExtension extends \Twig_Extension
      *
      * @return boolean
      */
-    public function doGetTotalTime($label) {
+    public function getTimerTotal($label) {
         return $this->total_time[$label];
     }
 }
