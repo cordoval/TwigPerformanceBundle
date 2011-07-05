@@ -12,8 +12,7 @@ use Symfony\Component\Config\FileLocator;
  *
  * @author Luis Cordova <cordoval@gmail.com>
  */
-class PerformanceExtension
-    extends Extension
+class CordovaTwigPerformanceExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
